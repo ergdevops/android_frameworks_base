@@ -70,7 +70,7 @@ import dagger.Subcomponent;
         QsFrameTranslateModule.class,
         SystemUIBinder.class,
         SystemUIModule.class,
-        SystemUICoreStartableModule.class,
+        customSystemUICoreStartableModule.class,
         ReferenceSystemUIModule.class})
 public interface SysUIComponent {
 
