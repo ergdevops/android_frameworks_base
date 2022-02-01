@@ -20,6 +20,7 @@ import static android.provider.settings.validators.SettingsValidators.ACCESSIBIL
 import static android.provider.settings.validators.SettingsValidators.ANY_FLOAT_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.ANY_INTEGER_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.ANY_STRING_VALIDATOR;
+import static android.provider.settings.validators.SettingsValidators.APP_LIST_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.BOOLEAN_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.COLON_SEPARATED_COMPONENT_LIST_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.COLON_SEPARATED_PACKAGE_LIST_VALIDATOR;
