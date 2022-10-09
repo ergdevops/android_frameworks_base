@@ -25,6 +25,7 @@ import android.content.res.Resources
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
+import android.os.SystemProperties
 import android.os.UserHandle
 import android.os.UserManager
 import android.provider.Settings
@@ -236,6 +237,8 @@ class customThemeOverlayController @Inject constructor(
             else -> error("Unknown type $type")
         }
 
+        setBootAnimColors()
+
         return FabricatedOverlay.Builder(context.packageName, groupKey, "android").run {
             colorsList.forEachIndexed { index, swatch ->
                 val group = "$groupKey${index + 1}"
@@ -259,6 +262,31 @@ class customThemeOverlayController @Inject constructor(
 
             build()
         }
+    }
+
+    private fun setBootAnimColors() {
+        try {
+            val bootColors: List<Color> = getBootColors()
+
+            for(i in 0..bootColors.size - 1) {
+                val color: Int = bootColors[i].convert<Srgb>().toRgb8()
+                SystemProperties.set("persist.bootanim.color${i + 1}", color.toString())
+                Log.d("ThemeOverlayController", "Writing boot animation colors $i: $color")
+            }
+        } catch(e: RuntimeException) {
+            Log.w("ThemeOverlayController", "Cannot set sysprop. Look for 'init' and 'dmesg' logs for more info.")
+        }
+    }
+
+    private fun getBootColors(): List<Color> {
+         // The four colors here are chosen based on a figma spec of POSP bootanim
+         // If you plan on having your own custom animation you potentially want to change these colors
+         return listOf(
+             dynamicColorScheme!!.accent1[400]!!,
+             dynamicColorScheme!!.accent1[200]!!,
+             dynamicColorScheme!!.accent1[700]!!,
+             dynamicColorScheme!!.accent2[900]!!,
+         )
     }
 
     override protected fun getAccent1(): List<Int> {
